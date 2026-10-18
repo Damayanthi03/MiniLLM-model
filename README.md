@@ -1,126 +1,135 @@
-# MiniLM — A Lightweight Transformer Language Model Trained From Scratch
+# MiniLLM — A Lightweight Transformer Language Model Trained From Scratch
 
-MiniLM is a small **decoder-only Transformer** (GPT-style) written in PyTorch and trained from random weights
-on a small text file. A dark-navy Streamlit website lets you train it, watch real loss curves, generate text,
-evaluate it on held-out text and explore its attention.
+A small decoder-only Transformer language model built using PyTorch. MiniLLM learns to predict the next character from a training text dataset and generates text using its learned parameters.
 
-* No pretrained weights, no Hugging Face downloads, no OpenAI / Claude / Gemini / external AI API calls.
-* No hard-coded answers and no simulated progress: every number on screen comes from the running code.
-* Runs on CPU; uses CUDA automatically only if it exists.
+## About the Project
 
-> **Honest expectation:** this is a ~0.4 M-parameter character-level model trained on ~8 K characters.
-> It learns spelling, word shapes and sentence rhythm of its training text. It does **not** understand meaning
-> and is nowhere near ChatGPT-level quality.
+MiniLLM is an educational language-model project developed to understand how Transformer models work internally. It is trained from randomly initialized weights using a custom training loop, without pretrained model weights or external AI APIs.
 
----
+The project includes a Streamlit dashboard for training the model, generating text, exploring model architecture, and evaluating performance.
 
-## 1. Project layout
+## Key Features
 
-```
+- Transformer language model implemented in PyTorch
+- Training from random initialization
+- Character-level tokenization
+- Next-character prediction and text generation
+- Causal self-attention and multiple attention heads
+- Live training progress and loss-curve visualization
+- Model information and parameter statistics
+- Text-generation controls such as temperature and top-k sampling
+- Evaluation using validation loss and perplexity
+- CPU support, with CUDA used when available and configured
+
+## Model Architecture
+
+| Component | Configuration |
+|---|---|
+| Model type | Decoder-only Transformer |
+| Trainable parameters | 419,072 |
+| Vocabulary size | 46 characters |
+| Transformer blocks | 2 |
+| Attention heads | 4 |
+| Embedding dimension | 128 |
+| Context length | 128 characters |
+| Feed-forward width | 512 |
+| Dropout | 0.1 |
+| Training steps | 3,000 |
+
+*These values represent the displayed configuration of the current trained model. They may change if the model is reconfigured or retrained.*
+
+## Technologies Used
+
+- **Python** — Core programming language
+- **PyTorch** — Transformer implementation and training
+- **Streamlit** — Interactive web interface
+- **NumPy** — Numerical operations
+- **Matplotlib** — Training and loss visualizations
+
+## How It Works
+
+1. **Text preparation:** The training text is converted into character IDs.
+2. **Input and target creation:** Text sequences are shifted by one character to create next-character prediction targets.
+3. **Embeddings:** Character IDs are converted into vectors, with positional information added.
+4. **Transformer processing:** Causal self-attention and feed-forward layers process the sequence.
+5. **Loss calculation:** Cross-entropy loss measures the difference between predictions and actual next characters.
+6. **Training:** Backpropagation and the AdamW optimizer update the model weights.
+7. **Text generation:** The trained model predicts one character at a time until the requested output length is reached.
+
+## Project Structure
+
+```text
 minilm/
-  app.py                 Streamlit entry point (navigation, theme)
-  config.py              Paths, ModelConfig, TrainConfig, presets, device detection
-  requirements.txt
-  .replit                Replit Run-button configuration
-  .streamlit/config.toml Theme + server settings (Replit friendly)
-  model/
-    tokenizer.py         Character-level tokenizer (encode / decode)
-    transformer.py       Causal multi-head attention, feed-forward, blocks, MiniLM
-    generate.py          Autoregressive generation, temperature + top-k sampling
-    checkpoint.py        Save / load checkpoints, clear errors for missing/corrupt files
-  training/
-    dataset.py           Text loading, train/validation split, mini-batches
-    train.py             The real training loop (backprop + AdamW) and train_step()
-    evaluate.py          Validation loss, perplexity, sample generations
-    manager.py           Background-thread runner; refuses duplicate training jobs
-  ui/theme.py            CSS theme + HTML components
-  views/                 One module per page (dashboard, generation, training, info, evaluation)
-  data/sample_text.txt   Original sample text written for this project
-  checkpoints/           Saved model (minilm.pt) appears here after training
-  outputs/               training_log.json and evaluation_report.json
-  tests/                 pytest suite
+├── README.md
+├── app.py
+├── model.py
+├── train.py
+├── requirements.txt
+├── data/
+├── checkpoints/
+└── .gitignore
 ```
 
-## 2. Run it
+*Adjust this structure to match the actual files in your repository.*
 
-### On Replit
-1. Create a Python Repl and upload the **contents** of the `minilm/` folder to the Repl root
-   (so `app.py` sits next to `.replit`).
-2. Press **Run**. The first run installs `requirements.txt` (PyTorch takes a few minutes), then starts Streamlit
-   on port 8501 and opens the web view.
+## Installation and Setup
 
-### Locally (VS Code / terminal)
+### 1. Clone the repository
+
 ```bash
-cd minilm
+git clone https://github.com/Damayanthi03/MiniLLM-model.git
+cd MiniLLM-model
+```
+
+### 2. Create a virtual environment
+
+Windows:
+
+```powershell
 python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
+.venv\Scripts\Activate.ps1
+```
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
+
+### 4. Run the application
+
+If the Streamlit interface is in `app.py`:
+
+```bash
 streamlit run app.py
 ```
-Open http://localhost:8501.
 
-### Run the tests
-```bash
-pytest
-```
+Open the local URL shown in the terminal, usually `http://localhost:8501`.
 
-## 3. How to train and generate
-1. Open **Model Training**, pick a preset (*Quick demo* / *Standard* / *Extended*) and press **Start training**.
-   Live step count, batch loss, train/validation loss, speed and a loss chart update every second.
-   A second job cannot be started while one runs; **Stop training** ends it early (marked as partial).
-2. When it finishes, a checkpoint is written to `checkpoints/minilm.pt` and the status becomes **Trained**.
-3. Open **Text Generation**, type a prompt (or click an example), adjust length / temperature / top-k and press **Generate**.
-4. Open **Evaluation** and press **Run evaluation** for validation loss, perplexity and sample generations.
+**Note:** Ensure the filenames and commands above match your actual project files.
 
-You can also train your own text: choose *My uploaded text* on the training page and upload a UTF-8 `.txt` file
-(at least ~1,500 characters for the default context length).
+## Model Training and Evaluation
 
-## 4. Suggested demo for your professor (≈ 8 minutes)
-1. **Dashboard** – state the claim: Transformer written from scratch, random init, no pretrained models, no APIs.
-   Point at the architecture chips and the parameter count.
-2. Show the code briefly: `model/transformer.py` (attention + causal mask), `training/train.py` (`train_step`:
-   forward → loss → `backward()` → AdamW step).
-3. **Model Training** – start the *Quick demo* (or *Standard*) run. Explain that step 0 loss is about ln(vocabulary)
-   (random guessing) and that the curve falls as the weights are updated.
-4. **Text Generation** – generate from an *untrained* state first if you like (nothing is available, the app says so),
-   then from the trained model. Vary temperature and top-k and explain the effect.
-5. **Model Information** – walk through the plain-language explanation, the parameter table and the
-   **attention explorer** (the empty upper triangle is the causal mask).
-6. **Evaluation** – run it, discuss validation loss vs. training loss (overfitting on tiny data) and perplexity vs. the
-   random baseline.
-7. Close with the **limitations** honestly: tiny model, tiny data, character-level, no understanding.
-8. Run `pytest` live to show the tests, including "a training step updates the weights".
+MiniLLM trains on a small text dataset and reports training loss, validation loss, and perplexity. A saved checkpoint can be loaded for text generation and evaluation.
 
-## 5. Download from Replit and run in VS Code
-1. In Replit, open the three-dot menu in the Files panel → **Download as zip** (or Tools → Download).
-2. Unzip, open the folder in VS Code, create a virtual environment and `pip install -r requirements.txt` (see above).
-3. `streamlit run app.py`. If you copied `checkpoints/minilm.pt` too, the trained model loads immediately;
-   otherwise train again locally.
+Since this is a small character-level model, generated text may contain spelling mistakes, repeated phrases, or incomplete sentences. It is an educational prototype, not a general-purpose LLM.
 
-## 6. How the pieces work
-* **Tokenizer** – each distinct character is one id.
-* **Model** – token + position embeddings → N × [LayerNorm → causal multi-head attention → residual → LayerNorm →
-  feed-forward → residual] → LayerNorm → linear layer to vocabulary scores (weights tied to the token embeddings).
-* **Learning** – a window of text is the input; the same window shifted by one character is the target.
-  Cross-entropy loss, backpropagation and AdamW (with warm-up + cosine learning-rate decay and gradient clipping).
-* **Validation** – the last 10 % of the text is never trained on. Perplexity = exp(validation loss), a per-character value.
-* **Generation** – predict one character, sample it (temperature / top-k), append, repeat.
+## Limitations
 
-## 7. Limitations and Replit notes
-* Training runs inside the Streamlit server process (a background thread). If Replit restarts or sleeps the Repl,
-  the running job is lost; start it again. Shorter presets exist for this reason.
-* Training speed depends on the CPU Replit gives you; the app shows the measured steps/second and a time estimate,
-  so use *Quick demo* if it feels slow.
-* PyTorch is large. `requirements.txt` points at the CPU-only wheel index to keep the install small.
-* With only ~8 K characters the model overfits if trained long: training loss keeps falling while validation loss
-  flattens or rises. The Evaluation page flags this.
-* Troubleshooting: if `import torch` fails on Replit with a `libstdc++` error, add `pkgs.stdenv.cc.cc.lib` to
-  `replit.nix` and expose it through `LD_LIBRARY_PATH`. (Standard Replit workaround; not needed on a normal machine.)
+- Uses a small training dataset and vocabulary.
+- Predicts characters rather than complete word-level tokens.
+- Output quality depends on the training data and model configuration.
+- Requires additional data, model capacity, and evaluation to improve language-generation quality.
+- Does not have the general knowledge or reasoning abilities of large pretrained language models.
 
-## 8. Tests (`pytest`)
-`tests/` covers: tokenizer encode/decode; forward-pass shapes and loss; causal masking (zero attention to the future,
-and changing future tokens leaves earlier outputs unchanged); a training step changes the weights; a full tiny run
-lowers loss and saves a checkpoint; stop-early checkpoint; checkpoint round-trip; generation from a loaded
-checkpoint (seeded, greedy, top-k, empty prompt, longer than the context); missing and corrupted checkpoints;
-duplicate-job prevention and error reporting in the training manager; and every web page rendering with no checkpoint,
-a trained checkpoint and a corrupted checkpoint (Streamlit `AppTest`).
+## Future Enhancements
+
+- Train on a larger and more diverse text dataset.
+- Experiment with deeper Transformer architectures.
+- Add word-level or subword tokenization.
+- Improve text-generation quality and evaluation.
+- Add support for saving and loading different model configurations.
+
+## Project Objective
+
+The main objective of MiniLLM is to implement and train a small Transformer language model from scratch to understand tokenization, self-attention, training, next-character prediction, and text generation without relying on pretrained model weights or external AI APIs.
