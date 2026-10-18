@@ -1,0 +1,49 @@
+Mina the robot lived in a small workshop at the edge of a quiet town. Every morning she opened the wooden window, listened to the birds, and checked her list of things to learn. Mina the robot was curious about everything. She wanted to know why the river bends, why the moon follows the train, and why bread smells so warm.
+
+Every morning the baker next door brought her a slice of bread and a short question. Today the question was simple. Which is bigger, a hope or a mountain? Mina thought about it for a long time. A mountain is big for the feet, she said, but a hope is big for the heart. The baker smiled and wrote the answer on a small card.
+
+The transformer is a kind of neural network that reads a sequence one piece at a time and decides which earlier pieces matter most. It does not read like a person. It looks at all the pieces it has seen so far and gives each one a score. The pieces with high scores shape the next prediction. This idea is called attention.
+
+Attention is the heart of the transformer. For every position in the text, the model asks a question, and every earlier position offers an answer. The model compares the question with each answer and decides how much to listen. A word that is helpful gets a large weight. A word that is not helpful gets a small weight.
+
+A language model learns by playing one simple game again and again. It sees some text and tries to guess the next character. At first the guesses are random and the model is almost always wrong. After each guess the model measures how wrong it was, and then it changes its numbers a little so that the same mistake becomes less likely next time.
+
+The numbers inside a model are called weights. A small model may have a few hundred thousand weights, and a very large model may have billions. The weights start out random. Training is the slow process of nudging every weight in a direction that makes the predictions better. Nothing is copied from another model. Everything is learned from the text that the model is shown.
+
+Once upon a time there was a lighthouse on a green island. The keeper of the lighthouse was an old woman named Rosa, and she knew the name of every ship that passed. When the fog came, she lit the big lamp and the ships found their way home. The sailors called her the keeper of the quiet light.
+
+Rosa kept a notebook beside the lamp. In the notebook she wrote the weather, the tides, and the names of the boats. She wrote with a blue pencil that was almost too short to hold. When a new boat passed, she gave it a page of its own and drew a tiny sail in the corner.
+
+In the library the students sat in long rows with their books open and their coffee cooling. The room was quiet except for the soft sound of turning pages. A girl near the window was learning how a computer finds patterns. A boy at the next table was learning how a bridge holds up a road. Both of them were stuck, and both of them were sure that the next page would help.
+
+In the library there was a rule that said every question deserves a patient answer. The librarian, a tall man with round glasses, followed that rule with great care. When a student asked where to begin, he did not point to a shelf. He asked what the student already knew, and then he found the next small step.
+
+Every morning the students walked across the campus under the old trees. They talked about exams, about music, and about the project that was due on Friday. Some of them spoke in fast excited voices, and some of them spoke slowly and thought before every word. By the time they reached the lecture hall, most of them had forgotten how tired they were.
+
+The lecture hall was full of light. The professor drew a box on the board and wrote the word input above it. She drew another box and wrote the word output below it. Between the two boxes she drew a thick arrow and asked the class what happens in the middle. A student in the back answered that the model learns.
+
+Learning takes practice, and practice takes time. A model that sees a sentence only once will not remember it well. A model that sees many sentences many times begins to notice the shape of the language. It notices that a question mark often follows a question, that a capital letter often starts a sentence, and that the word the is followed by a noun far more often than by a verb.
+
+The river behind the town was wide and slow. In the spring it carried small leaves and pieces of bark down to the sea. In the summer it was warm enough for children to splash in the shallow places. In the autumn it turned the color of old copper, and in the winter it slept under a thin sheet of ice.
+
+On the other side of the river there was a market. The market opened at sunrise, and by noon every table was covered with apples, cloth, clay pots, and bundles of herbs. The sellers called out their prices in cheerful voices. A little girl walked from table to table and counted the colors, and she was proud that she could count to twelve.
+
+Mina the robot visited the market on the first day of every month. She did not buy anything, because robots do not eat apples. She came to listen. She listened to the way the sellers spoke, the way the buyers bargained, and the way the children laughed. Then she went home and wrote down what she had heard, so that she could learn how people talk.
+
+The more Mina listened, the more she noticed. She noticed that people repeat words when they are excited. She noticed that people pause when they are thinking, and that they speak softly when they are sad. She noticed that a good story has a beginning, a middle, and an end, and that the end often returns to the beginning in a small and surprising way.
+
+A good habit is a small action repeated every day. Reading one page before sleep is a good habit. Writing three lines in a notebook is a good habit. Taking a short walk after a long study session is a good habit. Habits are like training steps for a person. Each one is small, but together they change who we become.
+
+When a model trains for too long on too little text, it can start to memorize instead of learn. It may repeat whole sentences perfectly, but fail on a sentence it has never seen. This is called overfitting. To check for it, we keep a small part of the text hidden, and we measure the loss on that hidden part. If the loss on the hidden text stays high while the loss on the training text keeps falling, the model is memorizing.
+
+The loss is a single number that tells us how surprised the model is by the real next character. A high loss means the model is very surprised. A low loss means the model expected the right answer. When training goes well, the loss falls quickly at first and then more slowly, like a ball rolling down a hill that gradually becomes flat.
+
+Temperature is a setting that controls how bold the model is when it writes. With a low temperature the model always picks the most likely character, and the text becomes safe but repetitive. With a high temperature the model takes more risks, and the text becomes more surprising but also more likely to contain mistakes. A middle value is usually a good place to start.
+
+Top-k sampling is another way to control the writing. Instead of choosing from every possible character, the model keeps only the k best candidates and ignores the rest. This stops the model from picking a very unlikely character by accident. A small value of k gives careful text, and a large value of k gives more variety.
+
+In the evening the town became very quiet. The baker closed the shop and swept the floor. The keeper of the quiet light climbed the stairs of the lighthouse and lit the lamp. Mina the robot sat by the window of her workshop and watched the first stars appear above the roofs. She felt that she had learned a little more than yesterday.
+
+Before she turned off her lamp, Mina wrote one last line in her notebook. She wrote that learning is not a single big jump but a long walk made of small steps. She wrote that every mistake is a message that shows where to go next. Then she closed the notebook, and the workshop was quiet until the next morning.
+
+Every morning the sun climbed over the hills and touched the roofs one by one. The baker lit his oven, the students opened their books, and the old trees shook the dew from their leaves. Mina the robot opened the wooden window and listened to the birds. Another day of learning had begun.

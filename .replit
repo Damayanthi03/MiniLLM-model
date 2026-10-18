@@ -1,0 +1,16 @@
+entrypoint = "app.py"
+modules = ["python-3.11"]
+
+# The Run button installs requirements (a no-op once installed) and starts the web app.
+run = ["sh", "-c", "pip install -q -r requirements.txt && streamlit run app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true"]
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "streamlit run app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true"]
+deploymentTarget = "cloudrun"
+
+[[ports]]
+localPort = 8501
+externalPort = 80
